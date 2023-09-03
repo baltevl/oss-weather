@@ -107,6 +107,7 @@
   "ok": "OK",
   "open_website": "open website",
   "owm_api_key": "OpenWeatherMap API Key",
+  "gadgetbridge_broadcasting": "Send weather data to Gadgetbridge",
   "partly_cloudy": "partly cloudy",
   "please_describe_error": "please describe error",
   "portuguese": "portuguese",

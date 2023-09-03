@@ -36,6 +36,10 @@
         app:defaultValue="false"
         app:key="imperial"
         app:title="@string/imperial_units" />
+        <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:key="gadgetbridge_broadcasting"
+        app:title="@string/gadgetbridge_broadcasting" />
 
     </PreferenceCategory>
 </PreferenceScreen>
