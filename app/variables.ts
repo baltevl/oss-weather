@@ -5,6 +5,7 @@ import { get_current_component } from 'svelte/internal';
 import { writable } from 'svelte/store';
 import { prefs } from '~/services/preferences';
 import CSSLoader from '~/variables.module.scss';
+import { GadgetbridgeObserver } from './services/gadgetbridge/gadgetbridgeobserver';
 
 const locals = CSSLoader.locals;
 
@@ -102,6 +103,7 @@ prefs.on('key:fontscale', () => {
     const newValue = ApplicationSettings.getNumber('fontscale');
     fontScale.set(newValue);
 });
+prefs.on('key:gadgetbridge_broadcasting', GadgetbridgeObserver.settingsChangeHandler);
 
 export function updateThemeColors(theme: string) {
     DEV_LOG && console.log('updateThemeColors', theme);
