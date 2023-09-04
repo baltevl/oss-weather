@@ -16,8 +16,6 @@
     import { Template } from 'svelte-native/components';
     import { NativeElementNode, NativeViewElementNode } from 'svelte-native/dom';
     import CActionBar from '~/components/CActionBar.svelte';
-    import SelectCity from '~/components/SelectCity.svelte';
-    import WeatherComponent from '~/components/WeatherComponent.svelte';
     import WeatherMapPage from '~/components/WeatherMapPage.svelte';
     import { FavoriteLocation, favoriteIcon, favoriteIconColor, favorites, getFavoriteKey, toggleFavorite } from '~/helpers/favorites';
     import { l, lc, onLanguageChanged, sl } from '~/helpers/locale';
@@ -28,6 +26,8 @@
     import { alert, showError } from '~/utils/error';
     import { showBottomSheet } from '~/utils/svelte/bottomsheet';
     import { actionBarButtonHeight, lightBackgroundColor, globalObservable, mdiFontFamily, textLightColor, backgroundColor } from '~/variables';
+    import SelectCity from '~/components/SelectCity.svelte';
+    import WeatherComponent from '~/components/WeatherComponent.svelte';
 
     let gps: GPS;
     let loading = false;
