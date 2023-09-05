@@ -104,6 +104,7 @@ prefs.on('key:fontscale', () => {
     fontScale.set(newValue);
 });
 prefs.on('key:gadgetbridge_broadcasting', GadgetbridgeObserver.settingsChangeHandler);
+GadgetbridgeObserver.settingsChangeHandler()
 
 export function updateThemeColors(theme: string) {
     DEV_LOG && console.log('updateThemeColors', theme);
