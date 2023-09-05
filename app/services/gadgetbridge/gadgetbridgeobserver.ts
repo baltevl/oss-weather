@@ -1,11 +1,21 @@
-import { ApplicationSettings } from "@nativescript/core";
+import { PropertyChangeData } from "@akylas/nativescript/data/observable/index";
+import { ApplicationSettings, Observable } from "@nativescript/core";
+import { WeatherProvider } from "../weatherprovider";
+import { GadgetbridgeBroadcaster } from "./gadgetbridgebroadcaster";
 
 export class GadgetbridgeObserver {
     private static _singleton: GadgetbridgeObserver = null;
+    private readonly _broadcaster: GadgetbridgeBroadcaster;
 
 
     private constructor() {
-        //TODO register with WeatherProvider
+        this._broadcaster = new GadgetbridgeBroadcaster();
+        const provider: WeatherProvider =  WeatherProvider.getInstance();
+        provider.on(Observable.propertyChangeEvent, (event) => {
+            if (event?.propertyName === WeatherProvider.CACHED_DATA_PROPERTY)
+                this._broadcaster.broadcast(provider.getCachedWeatherData())
+        })
+        this._broadcaster.broadcast(provider.getCachedWeatherData())
     }
 
     private static setSingleton(): GadgetbridgeObserver {

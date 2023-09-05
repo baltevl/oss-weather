@@ -7,6 +7,7 @@ import { OWMProvider } from './owm';
 import { getString } from '@nativescript/core/application-settings';
 
 export class WeatherProvider extends Observable {
+    public static readonly CACHED_DATA_PROPERTY: string = 'cachedData';
     private static _singleton: WeatherProvider;
     private networkProvider: NetworkWeatherProvider;
     private cachedData: WeatherData;
@@ -16,13 +17,13 @@ export class WeatherProvider extends Observable {
         if (requestedProviderType !== this.networkProvider?.getType()) {
             this.setProvider(requestedProviderType);
         }
-        this.cachedData = this.networkProvider.getWeather(weatherLocation);
-        //TODO notify observers
-        return this.cachedData;
+        const newData: WeatherData = this.networkProvider.getWeather(weatherLocation);
+        this.set(WeatherProvider.CACHED_DATA_PROPERTY, newData);
+        return this.get(WeatherProvider.CACHED_DATA_PROPERTY);
     }
 
     public getCachedWeatherData(): WeatherData {
-        return this.cachedData;
+        return this.get(WeatherProvider.CACHED_DATA_PROPERTY);
     }
 
     public static getInstance(): WeatherProvider {
