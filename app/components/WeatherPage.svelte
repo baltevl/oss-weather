@@ -22,12 +22,12 @@
     import { NetworkConnectionStateEvent, NetworkConnectionStateEventData, WeatherLocation, geocodeAddress, networkService, prepareItems } from '~/services/api';
     import { OWMProvider } from '~/services/owm';
     import { prefs } from '~/services/preferences';
-    import { getProvider } from '~/services/weatherproviderfactory';
     import { alert, showError } from '~/utils/error';
     import { showBottomSheet } from '~/utils/svelte/bottomsheet';
     import { actionBarButtonHeight, lightBackgroundColor, globalObservable, mdiFontFamily, textLightColor, backgroundColor } from '~/variables';
     import SelectCity from '~/components/SelectCity.svelte';
     import WeatherComponent from '~/components/WeatherComponent.svelte';
+    import { WeatherProvider } from '~/services/weatherprovider';
 
     let gps: GPS;
     let loading = false;
@@ -135,7 +135,7 @@
         loading = true;
 
         try {
-            weatherData = await getProvider().getWeather(weatherLocation);
+            weatherData = await WeatherProvider.getInstance().getWeather(weatherLocation);
             if (weatherData) {
                 // console.log(JSON.stringify(weatherData))
                 lastUpdate = Date.now();

@@ -7,7 +7,7 @@
     import { WeatherLocation, geocodeAddress, networkService, prepareItems } from '~/services/api';
     import { backgroundColor } from '~/variables';
     import { l, lc } from '~/helpers/locale';
-    import { getProvider } from '~/services/weatherproviderfactory';
+    import { WeatherProvider } from '~/services/weatherprovider';
 
     let items = [];
     let loading = false;
@@ -18,7 +18,7 @@
     async function refresh(weatherLocation: WeatherLocation) {
         loading = true;
         try {
-            const data = await getProvider().getWeather(weatherLocation);
+            const data = await WeatherProvider.getInstance().getWeather(weatherLocation);
             DEV_LOG && console.log('refresh', name, typeof name, weatherLocation);
             if (!name || !weatherLocation.sys.city) {
                 try {

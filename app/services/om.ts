@@ -1,18 +1,16 @@
-import { titlecase } from '@nativescript-community/l';
-import { getString } from '@nativescript/core/application-settings';
-import dayjs from 'dayjs';
 import { WeatherDataType, weatherDataIconColors } from '~/helpers/formatter';
-import { l, lang } from '~/helpers/locale';
+import { l } from '~/helpers/locale';
 import { WeatherLocation, request } from './api';
 import { Forecast } from './openmeteo';
-import { GetTimesResult, getTimes } from 'suncalc';
+import { getTimes } from 'suncalc';
 import { ApplicationSettings } from '@nativescript/core';
-import { WeatherProvider } from './weatherprovider';
-// import { Coord, Dailyforecast, Forecast, MFCurrent, MFForecastResult, MFMinutely, MFWarnings, Probabilityforecast } from './meteofrance';
+import { NetworkWeatherProvider } from './networkweatherprovider';
 
-// const mfApiKey = getString('mfApiKey', MF_DEFAULT_KEY);
+export class OMProvider implements NetworkWeatherProvider {
 
-export class OMProvider extends WeatherProvider {
+    public getType(): ProviderType {
+        return 'openmeteo';
+    }
 
     private static readonly weatherCodeDescription = {
         0: l('clear'),
@@ -122,7 +120,7 @@ export class OMProvider extends WeatherProvider {
         }
     }
 
-    public override async getWeather(weatherLocation: WeatherLocation) {
+    public async getWeather(weatherLocation: WeatherLocation) {
         const coords = weatherLocation.coord;
         const preferedModel = ApplicationSettings.getString('open_meteo_prefered_model');
         const forecast = await this.fetch<Forecast>('forecast', { latitude: coords.lat, longitude: coords.lon }, preferedModel);

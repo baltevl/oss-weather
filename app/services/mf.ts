@@ -5,7 +5,7 @@ import { WeatherDataType, weatherDataIconColors } from '~/helpers/formatter';
 import { lang, lc } from '~/helpers/locale';
 import { WeatherLocation, request } from './api';
 import { Coord, Dailyforecast, ForecastForecast, MFCurrent, MFForecastResult, MFMinutely, MFWarnings, Probabilityforecast } from './meteofrance';
-import { WeatherProvider } from './weatherprovider';
+import { NetworkWeatherProvider } from './networkweatherprovider';
 
 const mfApiKey = getString('mfApiKey', MF_DEFAULT_KEY);
 
@@ -13,7 +13,11 @@ interface MFParams extends Partial<Coord> {
     domain?: string;
 }
 
-export class MFProvider extends WeatherProvider {
+export class MFProvider implements NetworkWeatherProvider {
+
+    public getType(): ProviderType {
+        return 'meteofrance';
+    }
 
     private getDaily(weatherLocation: WeatherLocation, hourly: Hourly[], hourlyForecast: ForecastForecast[], dailyForecast: Dailyforecast) {
         let precipitationTotal = 0;
@@ -255,7 +259,7 @@ export class MFProvider extends WeatherProvider {
         });
     }
 
-    public override async getWeather(weatherLocation: WeatherLocation) {
+    public async getWeather(weatherLocation: WeatherLocation) {
         const coords = weatherLocation.coord;
         const result = await Promise.all([this.fetch<MFForecastResult>('v2/forecast', coords), this.fetch<MFMinutely>('v3/nowcast/rain', coords), this.fetch<MFCurrent>('v2/observation', coords)]);
         // if (forecast.position.dept) {

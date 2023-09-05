@@ -3,21 +3,24 @@ import { getString, remove, setString } from '@nativescript/core/application-set
 import { WeatherDataType, weatherDataIconColors } from '~/helpers/formatter';
 import { lang } from '~/helpers/locale';
 import { WeatherLocation, request } from './api';
+import { NetworkWeatherProvider } from './networkweatherprovider';
 import { CityWeather, Coord, OneCallResult } from './openweathermap';
 import { prefs } from './preferences';
-import { WeatherProvider } from './weatherprovider'
 
-export class OWMProvider extends WeatherProvider {
+export class OWMProvider implements NetworkWeatherProvider {
 
     private static owmApiKey;
 
     constructor() {
-        super()
         OWMProvider.owmApiKey = OWMProvider.readOwmApiKeySetting();
         prefs.on('key:owmApiKey', (event) => {
             OWMProvider.owmApiKey = OWMProvider.readOwmApiKeySetting();
         });
 
+    }
+
+    public getType(): ProviderType {
+        return 'openweathermap';
     }
 
     private static async fetch<T = any>(apiName: string, queryParams: OWMParams = {}) {
@@ -33,7 +36,7 @@ export class OWMProvider extends WeatherProvider {
         });
     }
 
-    public override async getWeather(weatherLocation: WeatherLocation) {
+    public async getWeather(weatherLocation: WeatherLocation) {
         const coords = weatherLocation.coord;
         const result = await OWMProvider.fetch<OneCallResult>('onecall', coords);
         // console.log('test', JSON.stringify(result.daily));
