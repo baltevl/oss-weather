@@ -17,7 +17,7 @@ export class WeatherProvider extends Observable {
         if (requestedProviderType !== this.networkProvider?.getType()) {
             this.setProvider(requestedProviderType);
         }
-        const newData: WeatherData = this.networkProvider.getWeather(weatherLocation);
+        const newData: WeatherData = await this.networkProvider.getWeather(weatherLocation);
         this.set(WeatherProvider.CACHED_DATA_PROPERTY, newData);
         return this.get(WeatherProvider.CACHED_DATA_PROPERTY);
     }
