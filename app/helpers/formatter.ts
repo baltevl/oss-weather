@@ -18,8 +18,15 @@ export enum UNITS {
     Speed = 'km/h',
     SpeedM = 'm/h'
 }
+
+const CELSIUS_KELVIN_OFFSET = 273.15;
+
 export function kelvinToCelsius(kelvinTemp) {
-    return kelvinTemp - 273.15;
+    return kelvinTemp - CELSIUS_KELVIN_OFFSET;
+}
+
+export function celciusToKelvin(celciusTemp) {
+    return celciusTemp + CELSIUS_KELVIN_OFFSET;
 }
 
 function celciusToFahrenheit(kelvinTemp) {
